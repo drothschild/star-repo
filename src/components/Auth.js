@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import GitLogo from './GitHub-Mark-Light-32px.png';
-
-const link = `https://github.com/login/oauth/authorize?scope=public_repo&client_id=${
-    process.env.REACT_APP_CLIENT_ID
-}`;
+import { GITHUB_GET_CODE, GITHUB_GET_AUTH } from '../constants';
+const link = `${GITHUB_GET_CODE}${process.env.REACT_APP_CLIENT_ID}`;
 
 const Button = styled.button`
     height: 3.5rem;
@@ -25,13 +23,14 @@ const Button = styled.button`
 export default class Auth extends Component {
     async componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('code')) {
+        const code = urlParams.get('code');
+        window.history.pushState('', '', window.location.origin);
+        if (code) {
             const res = await axios.get(
-                `https://gatekeeper-github-david.herokuapp.com/authenticate/${urlParams.get(
-                    'code'
-                )}`
+                `${GITHUB_GET_AUTH}${urlParams.get('code')}`
             );
             const { token } = res.data;
+            this.props.setToken(token);
         }
     }
     render() {
