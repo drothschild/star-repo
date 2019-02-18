@@ -24,7 +24,7 @@ const VIEWER_QUERY = gql`
     }
 `;
 
-const StarredReps = () => {
+function StarredReps() {
     return (
         <Query query={VIEWER_QUERY}>
             {({ loading, error, data }) => {
@@ -43,7 +43,7 @@ const StarredReps = () => {
             }}
         </Query>
     );
-};
+}
 
 export { VIEWER_QUERY };
 

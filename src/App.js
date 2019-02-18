@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import styled from 'styled-components';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
@@ -13,6 +13,12 @@ import SearchRepos from './components/SearchRepos';
 const httpLink = createHttpLink({
     uri: GITHUB_GRAPHQL_END_POINT
 });
+
+const Columns = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+`;
 
 function App() {
     const [token, setToken] = useState('');
@@ -32,8 +38,10 @@ function App() {
     if (!token) return <Auth setToken={setToken} />;
     return (
         <ApolloProvider client={client}>
-            <StarredReps />
-            <SearchRepos />
+            <Columns>
+                <StarredReps />
+                <SearchRepos />
+            </Columns>
         </ApolloProvider>
     );
 }

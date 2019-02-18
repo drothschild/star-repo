@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FilledStar = styled.svg`
-    fill: ${props => (props.filled ? 'yellow' : 'none')};
+    fill: ${props => (props.filled ? 'yellow' : 'white')};
     width: 36px;
     height: 36px;
 `;
-function Star(filled) {
+function Star({ filled }) {
     return (
         <FilledStar
             filled={filled}
