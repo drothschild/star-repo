@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Star from './Star';
 import { VIEWER_QUERY } from './StarredReps';
+import Error from './Error';
 const UNSTAR_MUTATION = gql`
     mutation UNSTAR_MUTATION($starrableId: ID!) {
         removeStar(input: { starrableId: $starrableId }) {
@@ -19,9 +20,8 @@ const Repo = ({ repo }) => {
                 variables={{ starrableId: repo.id }}
                 refetchQueries={[{ query: VIEWER_QUERY }]}
             >
-                {(toggleStar, { loading, error, data }) => {
-                    if (data) console.log(data);
-                    if (loading) return <div>Loading...</div>;
+                {(toggleStar, { error }) => {
+                    if (error) return <Error error={error} />;
                     return (
                         <button onClick={toggleStar}>
                             <Star filled={repo.viewerHasStarred} />

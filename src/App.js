@@ -8,6 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import Auth from './components/Auth';
 import StarredReps from './components/StarredReps';
 import { GITHUB_GRAPHQL_END_POINT } from './constants';
+import SearchRepos from './components/SearchRepos';
 
 const httpLink = createHttpLink({
     uri: GITHUB_GRAPHQL_END_POINT
@@ -32,6 +33,7 @@ function App() {
     return (
         <ApolloProvider client={client}>
             <StarredReps />
+            <SearchRepos />
         </ApolloProvider>
     );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Repo from './Repo';
+import Error from './Error';
 
 const VIEWER_QUERY = gql`
     query VIEWER_QUERY {
@@ -28,8 +29,7 @@ const StarredReps = () => {
         <Query query={VIEWER_QUERY}>
             {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
-                console.log(data);
+                if (error) return <Error error={error} />;
                 return (
                     <div>
                         <h2>{data.viewer.login}'s Starred Repos</h2>
