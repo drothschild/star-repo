@@ -10,14 +10,20 @@ import Error from './Error';
 const UNSTAR_MUTATION = gql`
     mutation UNSTAR_MUTATION($starrableId: ID!) {
         removeStar(input: { starrableId: $starrableId }) {
-            clientMutationId
+            starrable {
+                id
+                viewerHasStarred
+            }
         }
     }
 `;
 const STAR_MUTATION = gql`
     mutation STAR_MUTATION($starrableId: ID!) {
         addStar(input: { starrableId: $starrableId }) {
-            clientMutationId
+            starrable {
+                id
+                viewerHasStarred
+            }
         }
     }
 `;
@@ -26,6 +32,7 @@ const Item = styled.li`
     display: flex;
     align-items: center;
     padding: 1rem;
+    border-bottom: 1px solid #ccc;
 `;
 
 const TransparentButton = styled.button`
@@ -61,13 +68,22 @@ function Repo({ repo, queryString }) {
                     }
                 ]}
             >
-                {(toggleStar, { loading, error }) => {
-                    if (loading) return <Star />;
+                {(toggleStar, { loading, error, data }) => {
                     if (error) return <Error error={error} />;
+                    let starred = repo.viewerHasStarred;
+                    // This is superfluous in context(since the queries are refetched), but helps with testing
+                    if (data) {
+                        console.log(data);
+                        starred = data.removeStar ? false : true;
+                    }
                     return (
-                        <TransparentButton onClick={toggleStar}>
+                        <TransparentButton
+                            onClick={toggleStar}
+                            disabled={loading}
+                            aria-label="star-button"
+                        >
                             <div>
-                                <Star filled={repo.viewerHasStarred} />
+                                <Star filled={starred} />
                             </div>
                         </TransparentButton>
                     );
@@ -77,10 +93,15 @@ function Repo({ repo, queryString }) {
                 src={repo.owner.avatarUrl}
                 alt={repo.owner.login}
                 style={{ height: 32, width: 32 }}
+                data-testid="owner-avatar"
             />
-            <a href={repo.url}>{repo.name}</a>
+            <a href={repo.url} data-testid="name">
+                {repo.name}
+            </a>
         </Item>
     );
 }
 
 export default Repo;
+
+export { UNSTAR_MUTATION, STAR_MUTATION };

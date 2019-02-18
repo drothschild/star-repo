@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import styled, { keyframes } from 'styled-components';
+import styled  from 'styled-components';
 import debounce from 'lodash.debounce';
 import Repo from './Repo';
 import Error from './Error';
@@ -31,16 +31,6 @@ const List = styled.ul`
     padding: 0;
 `;
 
-const glow = keyframes`
-  from {
-    box-shadow: 0 0 0px yellow;
-  }
-
-  to {
-    box-shadow: 0 0 10px 1px yellow;
-  }
-`;
-
 const SearchBox = styled.div`
     height: 4em;
     input {
@@ -48,9 +38,6 @@ const SearchBox = styled.div`
         padding: 10px;
         border: 1px solid black;
         font-size: 1.5rem;
-        &.loading {
-            animation: ${glow} 0.5s ease-in-out infinite alternate;
-        }
     }
 `;
 
@@ -69,6 +56,7 @@ function SearchRepos() {
                 <input
                     id="search"
                     type="search"
+                    aria-label="search-input"
                     defaultValue={queryString}
                     onChange={e => {
                         e.persist();
@@ -80,7 +68,8 @@ function SearchRepos() {
                 {({ loading, error, data }) => {
                     if (loading) return <p>Loading...</p>;
                     if (error) return <Error error={error} />;
-                    if (data.search.nodes.length === 0) return <h3>...</h3>;
+                    if (!data || data.search.nodes.length === 0)
+                        return <h3>...</h3>;
                     return (
                         <List>
                             {data.search.nodes.map(repo => (

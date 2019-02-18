@@ -11,6 +11,7 @@
     "debounce": "^1.2.0",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
+    "jest-dom": "^3.1.2",
     "lodash.debounce": "^4.0.8",
     "react": "^16.8.1",
     "react-apollo": "^2.4.1",
@@ -32,5 +33,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "casual": "^1.6.0",
+    "lolex": "^3.1.0",
+    "react-testing-library": "^5.8.0",
+    "waait": "^1.0.4"
+  }
 }

@@ -14,6 +14,7 @@ function Star({ filled }) {
             width="24"
             height="24"
             viewBox="0 0 51 48"
+            title={filled ? 'Starred' : 'Unstarred'}
         >
             <path
                 stroke="black"
