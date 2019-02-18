@@ -2,16 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FilledStar = styled.svg`
-    fill: ${props => (props.filled ? 'yellow' : 'white')};
-    width: 36px;
-    height: 36px;
+    fill: ${props => (props.filled ? 'gold' : 'white')};
 `;
 function Star({ filled }) {
     return (
         <FilledStar
             filled={filled}
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 100 100"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            width="24"
+            height="24"
+            viewBox="0 0 51 48"
         >
             <path
                 stroke="black"

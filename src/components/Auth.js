@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import GitLogo from './GitHub-Mark-Light-32px.png';
 import { GITHUB_GET_CODE, GITHUB_GET_AUTH } from '../constants';
+
 const link = `${GITHUB_GET_CODE}${process.env.REACT_APP_CLIENT_ID}`;
 
 const Button = styled.button`
@@ -20,21 +21,39 @@ const Button = styled.button`
     cursor: pointer;
 `;
 
-export default class Auth extends Component {
-    async componentDidMount() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        window.history.pushState('', '', window.location.origin);
-        if (code) {
-            const res = await axios.get(
-                `${GITHUB_GET_AUTH}${urlParams.get('code')}`
-            );
-            const { token } = res.data;
-            this.props.setToken(token);
+const CenterDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 12rem;
+`;
+
+function Auth({ setToken }) {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (window.location.search) {
+            setLoading(true);
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            window.history.pushState('', '', window.location.origin);
+            if (code) _getToken(code);
         }
-    }
-    render() {
-        return (
+        return () => {
+            setLoading(false);
+        };
+    });
+
+    const _getToken = async code => {
+        const res = await axios.get(`${GITHUB_GET_AUTH}${code}`);
+        const { token } = res.data;
+        setToken(token);
+        setLoading(false);
+    };
+    if (loading) return <div>Loading...</div>;
+    return (
+        <CenterDiv>
             <Button
                 onClick={() => {
                     window.location.replace(link);
@@ -42,6 +61,8 @@ export default class Auth extends Component {
             >
                 <img src={GitLogo} alt="Github Logo" /> Authenticate with Github
             </Button>
-        );
-    }
+        </CenterDiv>
+    );
 }
+
+export default Auth;
