@@ -9,6 +9,7 @@ import Auth from './components/Auth';
 import StarredReps from './components/StarredReps';
 import { GITHUB_GRAPHQL_END_POINT } from './constants';
 import SearchRepos from './components/SearchRepos';
+import Header from './components/Header';
 
 const httpLink = createHttpLink({
     uri: GITHUB_GRAPHQL_END_POINT
@@ -35,9 +36,16 @@ function App() {
         link: authLink.concat(httpLink),
         cache: new InMemoryCache()
     });
-    if (!token) return <Auth setToken={setToken} />;
+    if (!token)
+        return (
+            <div>
+                <Header />
+                <Auth setToken={setToken} />
+            </div>
+        );
     return (
         <ApolloProvider client={client}>
+            <Header />
             <Columns>
                 <StarredReps />
                 <SearchRepos />
