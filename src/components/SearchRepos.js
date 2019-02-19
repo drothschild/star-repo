@@ -5,6 +5,7 @@ import styled, { keyframes, css } from 'styled-components';
 import debounce from 'lodash.debounce';
 import Repo from './Repo';
 import Error from './Error';
+import Loader from './Loader';
 
 const SEARCH_REPOS_QUERY = gql`
     query SEARCH_REPOS_QUERY($queryString: String!) {
@@ -85,7 +86,7 @@ function SearchRepos() {
             <Query query={SEARCH_REPOS_QUERY} variables={{ queryString }}>
                 {({ loading, error, data }) => {
                     setQueryLoading(loading);
-                    if (loading) return <p>Loading...</p>;
+                    if (loading) return <Loader />;
                     if (error) return <Error error={error} />;
                     if (!data || data.search.nodes.length === 0)
                         return <h3>...</h3>;

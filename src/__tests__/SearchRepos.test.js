@@ -50,7 +50,7 @@ const mocks = [
 describe('<SearchRepos />', () => {
     it('searches for matching repos', async () => {
         let clock = lolex.install();
-        const { getByText, getByTestId, getByLabelText } = render(
+        const { getByTestId, getByLabelText } = render(
             <MockedProvider mocks={mocks} addTypename={true}>
                 <SearchRepos />
             </MockedProvider>
@@ -60,7 +60,6 @@ describe('<SearchRepos />', () => {
             target: { value: fakeRepo.name }
         });
 
-        expect(getByText('Loading...')).toBeTruthy();
         clock.tick(360);
         const repoName = await waitForElement(() => getByTestId('name'));
         expect(repoName).toHaveTextContent(fakeRepo.name);

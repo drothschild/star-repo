@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import GitLogo from './GitHub-Mark-Light-32px.png';
 import { useSpring, animated } from 'react-spring';
+import Loader from './Loader';
 
 import { GITHUB_GET_CODE, GITHUB_GET_AUTH } from '../constants';
 
@@ -65,7 +66,12 @@ function Auth({ setToken }) {
         setToken(token);
         setLoading(false);
     };
-    if (loading) return <div>Loading...</div>;
+    if (loading)
+        return (
+            <CenterDiv>
+                <Loader />
+            </CenterDiv>
+        );
     return (
         <CenterDiv>
             <Button

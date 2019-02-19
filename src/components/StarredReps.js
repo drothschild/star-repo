@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import gql from 'graphql-tag';
 import Repo from './Repo';
 import Error from './Error';
+import Loader from './Loader';
 
 const List = styled.ul`
     list-style: none;
@@ -34,7 +35,7 @@ function StarredReps() {
     return (
         <Query query={VIEWER_QUERY}>
             {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
+                if (loading) return <Loader />;
                 if (error) return <Error error={error} />;
                 return (
                     <div>
