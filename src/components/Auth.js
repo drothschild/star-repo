@@ -52,7 +52,6 @@ function Auth({ setToken }) {
             setLoading(true);
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
-            window.history.pushState('', '', window.location.origin);
             if (code) _getToken(code);
         }
         return () => {
@@ -62,6 +61,7 @@ function Auth({ setToken }) {
 
     const _getToken = async code => {
         const res = await axios.get(`${GITHUB_GET_AUTH}${code}`);
+        window.history.pushState('', '', window.location.origin);
         const { token } = res.data;
         setToken(token);
         setLoading(false);
