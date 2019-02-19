@@ -71,9 +71,7 @@ function Repo({ repo, queryString }) {
                 {(toggleStar, { loading, error, data }) => {
                     if (error) return <Error error={error} />;
                     let starred = repo.viewerHasStarred;
-                    // This is superfluous in context(since the queries are refetched), but helps with testing
                     if (data) {
-                        console.log(data);
                         starred = data.removeStar ? false : true;
                     }
                     return (
@@ -83,7 +81,7 @@ function Repo({ repo, queryString }) {
                             aria-label="star-button"
                         >
                             <div>
-                                <Star filled={starred} />
+                                <Star filled={starred}  loading={loading} />
                             </div>
                         </TransparentButton>
                     );

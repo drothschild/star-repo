@@ -7,11 +7,11 @@ import {
 } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import { MockedProvider } from 'react-apollo/test-utils';
+import lolex from 'lolex';
 import SearchRepos, { SEARCH_REPOS_QUERY } from '../components/SearchRepos';
 import { fakeRepo } from '../components/FakeItems';
 
 afterEach(cleanup);
-
 const mocks = [
     {
         request: {
@@ -49,6 +49,7 @@ const mocks = [
 
 describe('<SearchRepos />', () => {
     it('searches for matching repos', async () => {
+        let clock = lolex.install();
         const { getByText, getByTestId, getByLabelText } = render(
             <MockedProvider mocks={mocks} addTypename={true}>
                 <SearchRepos />
@@ -58,8 +59,11 @@ describe('<SearchRepos />', () => {
         fireEvent.change(search, {
             target: { value: fakeRepo.name }
         });
+
         expect(getByText('Loading...')).toBeTruthy();
+        clock.tick(360);
         const repoName = await waitForElement(() => getByTestId('name'));
         expect(repoName).toHaveTextContent(fakeRepo.name);
+        clock.uninstall();
     });
 });

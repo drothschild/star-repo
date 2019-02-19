@@ -10,8 +10,8 @@ import { MockedProvider } from 'react-apollo/test-utils';
 import Repo, { UNSTAR_MUTATION, STAR_MUTATION } from '../components/Repo';
 import { SEARCH_REPOS_QUERY } from '../components/SearchRepos';
 import { VIEWER_QUERY } from '../components/StarredReps';
-
 import { fakeRepo } from '../components/FakeItems';
+
 afterEach(cleanup);
 const mocks = [
     {
@@ -26,7 +26,8 @@ const mocks = [
                 removeStar: {
                     starrable: {
                         ...fakeRepo,
-                        viewerHasStarred: false
+                        viewerHasStarred: false,
+                        __typename: 'Repository'
                     },
                     __typename: 'RemoveStarPayload'
                 }
@@ -86,26 +87,8 @@ const mocks = [
 ];
 
 describe('<Repo />', () => {
-    it('loads data', () => {
-        const { getByTestId, getByAltText } = render(
-            <MockedProvider mocks={mocks} addTypename={true}>
-                <Repo repo={fakeRepo} />
-            </MockedProvider>
-        );
-        const repoName = getByTestId('name');
-        getByAltText(fakeRepo.owner.login);
-        expect(repoName.textContent).toBe(fakeRepo.name);
-    });
-    it('can be starred', async () => {
-        const { getByLabelText, getByTitle } = render(
-            <MockedProvider mocks={mocks} addTypename={true}>
-                <Repo repo={{ ...fakeRepo, viewerHasStarred: false }} />
-            </MockedProvider>
-        );
-        const starButton = getByLabelText('star-button');
-        fireEvent.click(starButton);
-        await waitForElement(() => getByTitle('Starred'));
-    });
+
+
     it('can be unstarred', async () => {
         const { getByLabelText, getByTitle } = render(
             <MockedProvider mocks={mocks} addTypename={true}>
@@ -115,5 +98,28 @@ describe('<Repo />', () => {
         const starButton = getByLabelText('star-button');
         fireEvent.click(starButton);
         await waitForElement(() => getByTitle('Unstarred'));
+    });
+
+    it('can be starred', async () => {
+        const { getByLabelText, getByTitle } = render(
+            <MockedProvider mocks={mocks} addTypename={true}>
+                <Repo repo={{ ...fakeRepo, viewerHasStarred: false }} />
+            </MockedProvider>
+        );
+        const starButton = getByLabelText('star-button');
+
+        fireEvent.click(starButton);
+        await waitForElement(() => getByTitle('Starred'));
+    });
+
+    it('loads data', () => {
+        const { getByTestId, getByAltText } = render(
+            <MockedProvider mocks={mocks} addTypename={true}>
+                <Repo repo={fakeRepo} />
+            </MockedProvider>
+        );
+        const repoName = getByTestId('name');
+        getByAltText(fakeRepo.owner.login);
+        expect(repoName.textContent).toBe(fakeRepo.name);
     });
 });

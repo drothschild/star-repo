@@ -1,16 +1,30 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
+
+const glitter = keyframes`
+  	0% { transform: scale(1.0); opacity: 1; }
+	25% { transform: scale(0.5); opacity: 0; }
+	50% { transform: scale(1.0); opacity: 1; }
+	75% { transform: scale(0.5); opacity: 0; }
+	100% { transform: scale(1.0); opacity: 1; }
+}
+`;
 
 const FilledStar = styled.svg`
     fill: ${props => (props.filled ? 'gold' : 'white')};
+    animation: ${props =>
+        props.loading
+            ? css`
+                  ${glitter} 4.5s  infinite
+              `
+            : ''};
 `;
-function Star({ filled }) {
+function Star({ filled, loading }) {
     return (
         <FilledStar
             filled={filled}
+            loading={loading}
             xmlns="http://www.w3.org/2000/svg"
-            fill-rule="evenodd"
-            clip-rule="evenodd"
             width="24"
             height="24"
             viewBox="0 0 51 48"
