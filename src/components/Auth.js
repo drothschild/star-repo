@@ -101,7 +101,8 @@ function Auth({ setToken }) {
                 onMouseLeave={() => set({ xys: [0, 0, 1] })}
                 style={{ transform: props.xys.interpolate(trans) }}
             >
-                <img src={GitLogo} alt="Github Logo" /> Authenticate with Github
+                <img src={GitLogo} alt="Github Logo" />
+                Authenticate
             </Button>
         </CenterDiv>
     );
