@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@use-hooks/axios": "^1.0.7",
         "apollo-boost": "^0.1.28",
         "apollo-client": "^2.4.13",
         "apollo-link-context": "^1.0.14",
@@ -42,4 +43,3 @@
         "waait": "^1.0.4"
     }
 }
-

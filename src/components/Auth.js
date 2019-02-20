@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import GitLogo from './GitHub-Mark-Light-32px.png';
 import { useSpring, animated } from 'react-spring';
 import Loader from './Loader';
 import Error from './Error';
+import useAxios from '@use-hooks/axios';
 
 import { GITHUB_GET_CODE } from '../constants';
 
@@ -41,9 +41,15 @@ const CenterDiv = styled.div`
     min-height: 12rem;
 `;
 
-function Auth({ setToken }) {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+function Auth({ setToken, token, children }) {
+    const [code, setCode] = useState(null);
+    const { error, response, loading } = useAxios({
+        url: `${process.env.REACT_APP_GITHUB_GET_AUTH}${code}`,
+        method: 'GET',
+        trigger: code,
+        filter: () => !!code
+    });
+
     const [props, set] = useSpring(() => ({
         xys: [0, 0, 1],
         config: { mass: 5, tension: 350, friction: 40 }
@@ -52,29 +58,22 @@ function Auth({ setToken }) {
     useEffect(() => {
         if (window.location.search) {
             const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
+            setCode(urlParams.get('code'));
             window.history.pushState('', '', window.location.origin);
-            if (code) _getToken(code);
         }
-        return () => {
-            setLoading(false);
-            setError(null);
-        };
+        return () => {};
     });
 
-    const _getToken = async code => {
-        setLoading(true);
-        try {
-            const res = await axios.get(
-                `${process.env.REACT_APP_GITHUB_GET_AUTH}${code}`
-            );
-            const { token } = res.data;
-            setToken(token);
-        } catch (e) {
-            setError(e);
-        }
-        setLoading(false);
-    };
+    if (token) {
+        return children;
+    }
+
+    if (response) {
+        const { token: newToken } = response.data;
+        setToken(newToken);
+        return <div />;
+    }
+
     if (error) {
         return (
             <CenterDiv>
@@ -82,12 +81,15 @@ function Auth({ setToken }) {
             </CenterDiv>
         );
     }
-    if (loading)
+
+    if (loading) {
         return (
             <CenterDiv>
                 <Loader />
             </CenterDiv>
         );
+    }
+
     return (
         <CenterDiv>
             <Button

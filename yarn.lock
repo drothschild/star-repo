@@ -942,6 +942,15 @@
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
   integrity sha512-te5lMAWii1uEJ4FwLjzdlbw3+n0FZNOvFXHxQDKeT0dilh7HOzdMzV2TrJVUzq8ep7J4Na8OUYPRLSQkJHAlrg==
 
+"@use-hooks/axios@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@use-hooks/axios/-/axios-1.0.7.tgz#000667fa312970f3c019ab63d60ae9698e045922"
+  integrity sha512-xkMnXGdAHlaUo9JTkHPFWZLEVOjDRRxMzwb2taTZJPUykBklEyEMPalnbyQp7NHsFtw+ikR0c96zADboOODyEA==
+  dependencies:
+    axios "^0.18.0"
+    react "^16.8.1"
+    react-dom "^16.8.1"
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -8245,7 +8254,7 @@ react-dev-utils@^7.0.3:
     strip-ansi "5.0.0"
     text-table "0.2.0"
 
-react-dom@^16.8.2:
+react-dom@^16.8.1, react-dom@^16.8.2:
   version "16.8.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.2.tgz#7c8a69545dd554d45d66442230ba04a6a0a3c3d3"
   integrity sha512-cPGfgFfwi+VCZjk73buu14pYkYBR1b/SRMSYqkLDdhSEHnSwcuYTPu6/Bh6ZphJFIk80XLvbSe2azfcRzNF+Xg==
@@ -8340,7 +8349,7 @@ react-with-gesture@^4.0.4:
   resolved "https://registry.yarnpkg.com/react-with-gesture/-/react-with-gesture-4.0.4.tgz#47e5f602f647c0cc66b1d1f167581a95b28d5ba3"
   integrity sha512-tiSmwijVPXy8z8Kc+ffsUmv6mwxOZ4Ucky90cNtLzuC+VRMEJzvw6peVY8LqweikDXk2OjVYR2gTPdVXo6SMEw==
 
-react@^16.8.2:
+react@^16.8.1, react@^16.8.2:
   version "16.8.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.2.tgz#83064596feaa98d9c2857c4deae1848b542c9c0c"
   integrity sha512-aB2ctx9uQ9vo09HVknqv3DGRpI7OIGJhCx3Bt0QqoRluEjHSaObJl+nG12GDdYH6sTgE7YiPJ6ZUyMx9kICdXw==

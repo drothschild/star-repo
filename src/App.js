@@ -36,21 +36,19 @@ function App() {
         link: authLink.concat(httpLink),
         cache: new InMemoryCache()
     });
-    if (!token)
-        return (
-            <div>
-                <Header />
-                <Auth setToken={setToken} />
-            </div>
-        );
+
     return (
-        <ApolloProvider client={client}>
+        <div>
             <Header />
-            <Columns>
-                <StarredReps />
-                <SearchRepos />
-            </Columns>
-        </ApolloProvider>
+            <ApolloProvider client={client}>
+                <Auth setToken={setToken} token={token}>
+                    <Columns>
+                        <StarredReps />
+                        <SearchRepos />
+                    </Columns>
+                </Auth>
+            </ApolloProvider>
+        </div>
     );
 }
 
