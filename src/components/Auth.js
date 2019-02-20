@@ -4,8 +4,9 @@ import axios from 'axios';
 import GitLogo from './GitHub-Mark-Light-32px.png';
 import { useSpring, animated } from 'react-spring';
 import Loader from './Loader';
+import Error from './Error';
 
-import { GITHUB_GET_CODE, GITHUB_GET_AUTH } from '../constants';
+import { GITHUB_GET_CODE } from '../constants';
 
 const link = `${GITHUB_GET_CODE}${process.env.REACT_APP_CLIENT_ID}`;
 
@@ -42,6 +43,7 @@ const CenterDiv = styled.div`
 
 function Auth({ setToken }) {
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [props, set] = useSpring(() => ({
         xys: [0, 0, 1],
         config: { mass: 5, tension: 350, friction: 40 }
@@ -49,23 +51,37 @@ function Auth({ setToken }) {
 
     useEffect(() => {
         if (window.location.search) {
-            setLoading(true);
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
+            window.history.pushState('', '', window.location.origin);
             if (code) _getToken(code);
         }
         return () => {
             setLoading(false);
+            setError(null);
         };
     });
 
     const _getToken = async code => {
-        const res = await axios.get(`${GITHUB_GET_AUTH}${code}`);
-        window.history.pushState('', '', window.location.origin);
-        const { token } = res.data;
-        setToken(token);
+        setLoading(true);
+        try {
+            const res = await axios.get(
+                `${process.env.REACT_APP_GITHUB_GET_AUTH}${code}`
+            );
+            const { token } = res.data;
+            setToken(token);
+        } catch (e) {
+            setError(e);
+        }
         setLoading(false);
     };
+    if (error) {
+        return (
+            <CenterDiv>
+                <Error error={error} />
+            </CenterDiv>
+        );
+    }
     if (loading)
         return (
             <CenterDiv>
