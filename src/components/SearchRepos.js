@@ -63,7 +63,7 @@ const SearchBox = styled.div`
 
 function SearchRepos() {
     const [queryString, setQueryString] = useState('');
-    const [queryLoading, setQueryLoading] = useState('false');
+    const [queryLoading, setQueryLoading] = useState(false);
     const onChange = debounce(e => {
         setQueryString(e.target.value);
     }, 350);
