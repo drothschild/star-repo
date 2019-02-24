@@ -18,10 +18,10 @@ const calc = (x, y) => [
 const trans = (x, y, s) => `scale(${s})`;
 
 const Button = styled(animated.button)`
-    height: 3.5rem;
-    line-height: 3.5rem;
-    font-size: 2rem;
-    padding: 0 1em;
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 3.5rem;
+    padding: 0 2rem;
     border: 1px;
     border-color: #2a65a0;
     color: #fff;
