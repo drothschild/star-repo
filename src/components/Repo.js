@@ -66,7 +66,7 @@ function Repo({ repo, queryString }) {
                             queryString: queryString ? queryString : ''
                         }
                     }
-                ]}
+                ]} awaitRefetchQueries= {true}
             >
                 {(toggleStar, { loading, error, data }) => {
                     if (error) return <Error error={error} />;
@@ -81,7 +81,7 @@ function Repo({ repo, queryString }) {
                             aria-label="star-button"
                         >
                             <div>
-                                <Star filled={starred}  loading={loading} />
+                                <Star filled={starred} loading={loading} />
                             </div>
                         </TransparentButton>
                     );

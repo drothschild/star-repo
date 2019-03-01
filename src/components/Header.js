@@ -6,7 +6,6 @@ const Logo = styled.h1`
     margin-left: 2rem;
     position: relative;
     color: white;
-    margin: 0px;
 `;
 
 const StyledHeader = styled.div`

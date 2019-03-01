@@ -5,7 +5,6 @@ import { useSpring, animated } from 'react-spring';
 import Loader from './Loader';
 import Error from './Error';
 import useAxios from '@use-hooks/axios';
-
 import { GITHUB_GET_CODE } from '../constants';
 
 const link = `${GITHUB_GET_CODE}${process.env.REACT_APP_CLIENT_ID}`;
